@@ -56,6 +56,36 @@ public class MainController {
         return node;
     }
 
+    @GetMapping("/api/pinyin/{query}")
+    public ObjectNode findPinyin(@PathVariable String query) throws IOException {
+
+        Connection.Response response2 = Jsoup.connect("https://www.mdbg.net/chinese/dictionary")
+                .method(Connection.Method.GET)
+                .execute();
+        Document responseDocument = response2.parse();
+        // Get form element
+        Element potentialForm = responseDocument.select("form#form_wdqt").first();
+        FormElement form = (FormElement) potentialForm;
+
+        // Fill textarea
+        Elements txtArea = responseDocument.select("#txa_text");
+        txtArea.get(0).text(query);
+        // Redirect result
+        Document resdoc = form.submit().post();
+        Element res = resdoc.getElementById("tta_output_ta");
+//
+//        // Get Analyze
+        Element analyzeFormElement = resdoc.select("td.resultswrap").first();
+        System.out.println(analyzeFormElement.toString());
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.createObjectNode();
+
+        node.put("analyze", analyzeFormElement.toString());
+
+        return node;
+    }
+
     private ResponseEntity<String> sendBackResponse(String jsonString, HttpStatus status) {
         ResponseEntity<String> respEntity = null;
         HttpHeaders responseHeaders = new HttpHeaders();
