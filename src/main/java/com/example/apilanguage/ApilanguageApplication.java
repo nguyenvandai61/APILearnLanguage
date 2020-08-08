@@ -39,6 +39,7 @@ public class ApilanguageApplication {
     public static void main(String[] args) throws IOException {
         SpringApplication.run(ApilanguageApplication.class, args);
 
+
     }
 
 }
