@@ -103,23 +103,13 @@ public class GenVocabulary {
             Word word = splitWord(ele.toString());
 
             ObjectNode childnode = mapper.createObjectNode();
-<<<<<<< HEAD
             String s = word.getWord()+": "+word.getMeaning();
             childnode.put("text", s);
-            System.out.println(childnode.toString());
-=======
-            childnode.put("text", word.getWord()+": "+word.getMeaning());
->>>>>>> 6ebe1522b6c1816292d266f2307299d21c834955
             arrayNode.add(childnode);
         }
 //
 //        // JSON wrapper
-<<<<<<< HEAD
         parentnode.put("message", arrayNode);
-        System.out.println(parentnode.toString());
-=======
-        parentnode.put("message", arrayNode.toString());
->>>>>>> 6ebe1522b6c1816292d266f2307299d21c834955
         return parentnode;
     }
 
