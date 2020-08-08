@@ -1,5 +1,6 @@
 package com.example.apilanguage.controller;
 
+import com.example.apilanguage.utils.GenVocabulary;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.jsoup.Connection;
@@ -24,6 +25,12 @@ public class MainController {
     @GetMapping("/")
     public String greet() throws IOException {
         return "Welcome Language API!";
+    }
+
+    @GetMapping("/api/{language}/{num}")
+    public ObjectNode generateWord(@PathVariable String language, @PathVariable String num) throws IOException {
+        System.out.println(num);
+        return GenVocabulary.genVocabulary(language, Integer.parseInt(num));
     }
 
     private ResponseEntity<String> sendBackResponse(String jsonString, HttpStatus status) {
