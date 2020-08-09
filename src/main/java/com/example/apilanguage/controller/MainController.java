@@ -27,15 +27,15 @@ public class MainController {
         return "Welcome Language API!";
     }
 
-    @GetMapping("/api/{language}/{num}")
-    public ObjectNode generateWord(@PathVariable String language, @PathVariable String num) throws IOException {
-        System.out.println(num);
-        return GenVocabulary.genVocabulary(language, Integer.parseInt(num));
-    }
+//    @GetMapping("/api/{language}/{num}")
+//    public ObjectNode generateWord(@PathVariable String language, @PathVariable String num) throws IOException {
+//        System.out.println(num);
+//        return GenVocabulary.genVocabulary(language, Integer.parseInt(num));
+//    }
     @GetMapping("/api/b{language}/{num}")
     public ObjectNode generateWordBot(@PathVariable String language, @PathVariable String num) throws IOException {
         System.out.println(num);
-        return GenVocabulary.genVocabularyBot(language, Integer.parseInt(num));
+        return GenVocabulary.genVocabularyBot(GenVocabulary.genVocabulary(language, Integer.parseInt(num)));
     }
 
     private ResponseEntity<String> sendBackResponse(String jsonString, HttpStatus status) {
