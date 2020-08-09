@@ -28,29 +28,13 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.example.apilanguage.utils.Utils.splitChamNgon;
 import static com.example.apilanguage.utils.Utils.splitWord;
 
 @SpringBootApplication
 public class ApilanguageApplication {
-    private static String getContentFrom(String link) throws IOException {
-        // Gởi HTTP request và nhận về kết quả là chuỗi các thẻ HTML
-        URL url = new URL(link);
-        URLConnection uc;
-
-        uc = url.openConnection();
-        uc.addRequestProperty("User-Agent",
-                "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
-        Scanner scanner = new Scanner(new InputStreamReader(uc.getInputStream()));
-        scanner.useDelimiter("\\\\Z");
-        String content = scanner.next();
-        scanner.close();
-        // xoá các ký tự ngắt dòng (xuống dòng)
-        content = content.replaceAll("\\\\R", "");
-        return content;
-    }
     public static void main(String[] args) throws IOException {
         SpringApplication.run(ApilanguageApplication.class, args);
-
     }
 
 }

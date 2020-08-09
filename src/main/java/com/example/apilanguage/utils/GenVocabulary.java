@@ -1,5 +1,6 @@
 package com.example.apilanguage.utils;
 
+import com.example.apilanguage.model.DanhNgon;
 import com.example.apilanguage.model.Word;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -14,6 +15,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.example.apilanguage.utils.Utils.splitChamNgon;
 import static com.example.apilanguage.utils.Utils.splitWord;
 
 public class GenVocabulary {
@@ -74,5 +76,38 @@ public class GenVocabulary {
         parentnode.put("messages", arrayNode);
         return parentnode;
     }
+    public static ArrayList<DanhNgon> getDanhNgon() throws IOException {
+        Connection.Response response2 = Jsoup.connect("https://www.tudiendanhngon.vn/")
+                .method(Connection.Method.GET)
+                .execute();
+        Document responseDocument = response2.parse();
+        Elements eles = responseDocument.getElementsByClass("DnnModule-KKCMSSystemRandomQuote");
+        System.out.println(eles.size());
 
+        ArrayList<DanhNgon> list = new ArrayList<>();
+        for (Element ele: eles
+        ) {
+            list.add(splitChamNgon(ele));
+        }
+
+        return list;
+    }
+
+    public static ObjectNode getDanhNgonBot(ArrayList<DanhNgon> list) throws IOException {
+        // Add word to your list and json them
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode parentnode = mapper.createObjectNode();
+        ArrayNode arrayNode = mapper.createArrayNode();
+        for (DanhNgon danhNgon: list
+        ) {
+            ObjectNode childnode = mapper.createObjectNode();
+            String s = danhNgon.getTheLoai()+":\n"+danhNgon.getCauViet()+"----"+danhNgon.getTacGia()+"----";
+            childnode.put("text", s);
+            arrayNode.add(childnode);
+        }
+
+        // JSON wrapper
+        parentnode.put("messages", arrayNode);
+        return parentnode;
+    }
 }
