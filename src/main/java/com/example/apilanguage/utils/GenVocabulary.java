@@ -47,7 +47,13 @@ public class GenVocabulary {
         FormElement form = (FormElement) submitForm;
         Document newDoc = form.submit().post();
         System.out.println(newDoc);
-        Elements list = newDoc.getElementsByClass("col-xs-12 col-sm-6");
+        Elements list;
+        if (language.compareTo("english")==0) {
+            list = newDoc.getElementsByClass("col-sm-12 col-md-6");
+        }
+        else {
+            list = newDoc.getElementsByClass("col-xs-12 col-sm-6");
+        }
         System.out.println(list);
         ArrayList<Word> arrayList = new ArrayList<>();
         for (Element ele: list
@@ -101,7 +107,7 @@ public class GenVocabulary {
         for (DanhNgon danhNgon: list
         ) {
             ObjectNode childnode = mapper.createObjectNode();
-            String s = danhNgon.getTheLoai()+":\n"+danhNgon.getCauViet()+"----"+danhNgon.getTacGia()+"----";
+            String s = danhNgon.getTheLoai()+":\n"+danhNgon.getCauViet();
             childnode.put("text", s);
             arrayNode.add(childnode);
         }
