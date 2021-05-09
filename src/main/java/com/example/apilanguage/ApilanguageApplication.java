@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,7 +28,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.example.apilanguage.utils.Utils.splitChamNgon;
-import static com.example.apilanguage.utils.Utils.splitWord;
 
 @SpringBootApplication
 public class ApilanguageApplication {

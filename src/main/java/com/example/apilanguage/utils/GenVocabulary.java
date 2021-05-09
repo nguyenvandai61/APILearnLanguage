@@ -15,11 +15,13 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.example.apilanguage.utils.Utils.splitChamNgon;
-import static com.example.apilanguage.utils.Utils.splitWord;
+import static com.example.apilanguage.utils.Utils.*;
 
 public class GenVocabulary {
     public GenVocabulary(String chinese, int num) {
+    }
+    public static void main(String args[]) throws IOException {
+        genVocabulary("english", 5);
     }
 
     public static ArrayList<Word> genVocabulary(String language, int num) throws IOException {
@@ -30,12 +32,12 @@ public class GenVocabulary {
         else {
             link = "https://www.bestrandoms.com/random-" + language + "-words";
         }
-        System.out.println(link);
+//        System.out.println(link);
         Connection.Response response2 = Jsoup.connect(link)
                 .method(Connection.Method.GET)
                 .execute();
         Document responseDocument = response2.parse();
-        System.out.println(responseDocument);
+//        System.out.println(responseDocument);
 
         // Change num of words
         Element numWord = responseDocument.getElementsByClass("form-control").get(0);
@@ -46,19 +48,26 @@ public class GenVocabulary {
         Element submitForm = responseDocument.getElementsByClass("form-horizontal").get(0);
         FormElement form = (FormElement) submitForm;
         Document newDoc = form.submit().post();
-        System.out.println(newDoc);
+//        System.out.println(newDoc);
         Elements list;
         if (language.compareTo("english")==0) {
-            list = newDoc.getElementsByClass("col-sm-12 col-md-6");
+            list = newDoc.getElementsByClass("list-unstyled").get(1)
+                    .getElementsByTag("li");
         }
         else {
-            list = newDoc.getElementsByClass("col-xs-12 col-sm-6");
+            list = newDoc.getElementsByClass("list-unstyled").get(1)
+                    .getElementsByClass("col-sm-6");
         }
-        System.out.println(list);
+//        System.out.println(list);
         ArrayList<Word> arrayList = new ArrayList<>();
         for (Element ele: list
         ) {
-            Word word = splitWord(ele.toString());
+            Word word;
+            if (language.compareTo("english")==0) {
+                word = splitEnglishWord(ele);
+            } else {
+                word = splitOtherWord(ele);
+            }
             arrayList.add(word);
         }
         return arrayList;
