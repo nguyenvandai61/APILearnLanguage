@@ -27,7 +27,7 @@ public class Utils {
             String word = ele.getElementsByTag("span").first().text();
             String type = ele.getElementsByTag("span").get(1)
                     .text();
-            String meaning = ele.getElementsByTag("div").text();
+            String meaning = ele.getElementsByTag("div").first().text();
             Word newWord = new Word()
                     .withWord(word)
                     .withType(type)
